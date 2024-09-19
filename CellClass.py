@@ -36,15 +36,9 @@ class Cell:
     def change_enabled_by(self, data):
         self.enabled += data
 
-    def find_enabled_transmitters(self):
-        transmitter_array = []
+    def find_enabled_transistors(self):
+        enabled_transistor_neighbors = []
         for n in range(len(self.neighbors)):
             if self.neighbors[n].state == 2 and self.neighbors[n].enabled == 0:
-                transmitter_array.append(self.neighbors[n])
-        return transmitter_array
-    def find_enabled_resting_neurons(self):
-        neuron_array = []
-        for n in range(len(self.neighbors)):
-            if self.neighbors[n].state == 3 and self.neighbors[n].enabled == 0:
-                neuron_array.append(self.neighbors[n])
-        return neuron_array
+                enabled_transistor_neighbors.append(self.neighbors[n])
+        return enabled_transistor_neighbors
