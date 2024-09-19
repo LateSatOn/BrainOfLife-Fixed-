@@ -1,37 +1,37 @@
 from CellClass import Cell
 import math
 
-def fill_cell_array(rows, cols, cell_array, state, signal, enabled):
+def fill_cell_list(rows, cols, cell_list, state, signal, enabled):
     n = 0
     for i in range(rows):
         inner = []
         for j in range(cols):
             inner.append(Cell(n,state, signal, enabled))
             n += 1
-        cell_array.append(inner)
+        cell_list.append(inner)
 
-def fill_cell_array_neighbors(rows, cols, cell_array, diagonal = False):
+def fill_cell_list_neighbors(rows, cols, cell_list, diagonal = False):
     for i in range(rows):
         for j in range(cols):
             if i > 0:
-                cell_array[i][j].add_neighbor(cell_array[i - 1][j])
+                cell_list[i][j].add_neighbor(cell_list[i - 1][j])
             if j > 0:
-                cell_array[i][j].add_neighbor(cell_array[i][j - 1])
-            if j < len(cell_array) - 1:
-                cell_array[i][j].add_neighbor(cell_array[i][j + 1])
-            if i < len(cell_array) - 1:
-                cell_array[i][j].add_neighbor(cell_array[i + 1][j])
-    if diagonal == True:
+                cell_list[i][j].add_neighbor(cell_list[i][j - 1])
+            if j < len(cell_list) - 1:
+                cell_list[i][j].add_neighbor(cell_list[i][j + 1])
+            if i < len(cell_list) - 1:
+                cell_list[i][j].add_neighbor(cell_list[i + 1][j])
+    if diagonal:
         for i in range(rows):
             for j in range(cols):
                 if i > 0 and j > 0:
-                    cell_array[i][j].add_neighbor(cell_array[i - 1][j - 1])
-                if i > 0 and j < len(cell_array) - 1:
-                    cell_array[i][j].add_neighbor(cell_array[i - 1][j + 1])
-                if i < len(cell_array) - 1 and j > 0:
-                    cell_array[i][j].add_neighbor(cell_array[i + 1][j - 1])
-                if i < len(cell_array) - 1 and j < len(cell_array) - 1:
-                    cell_array[i][j].add_neighbor(cell_array[i + 1][j + 1])
+                    cell_list[i][j].add_neighbor(cell_list[i - 1][j - 1])
+                if i > 0 and j < len(cell_list) - 1:
+                    cell_list[i][j].add_neighbor(cell_list[i - 1][j + 1])
+                if i < len(cell_list) - 1 and j > 0:
+                    cell_list[i][j].add_neighbor(cell_list[i + 1][j - 1])
+                if i < len(cell_list) - 1 and j < len(cell_list) - 1:
+                    cell_list[i][j].add_neighbor(cell_list[i + 1][j + 1])
 
 def first_quarter(matrix):
     rows = len(matrix)
@@ -47,7 +47,6 @@ def first_quarter(matrix):
                 first_quarter_value += 1
 
     return first_quarter_value
-
 def second_quarter(matrix):
     rows = len(matrix)
     cols = len(matrix[0])
@@ -62,7 +61,6 @@ def second_quarter(matrix):
                 second_quarter_value += 1
 
     return second_quarter_value
-
 def third_quarter(matrix):
     rows = len(matrix)
     cols = len(matrix[0])
@@ -77,7 +75,6 @@ def third_quarter(matrix):
                 third_quarter_value += 1
 
     return third_quarter_value
-
 def fourth_quarter(matrix):
     rows = len(matrix)
     cols = len(matrix[0])
