@@ -1,9 +1,25 @@
-def cell_logic(cell_array, i, j):
-    if cell_array[i][j].get_state() == 1:
-        print(f"{cell_array[i][j].get_identity()}: {cell_array[i][j].get_state()}")
-    elif cell_array[i][j].get_state() == 2:
-        print(f"{cell_array[i][j].get_identity()}: {cell_array[i][j].get_state()}")
-    elif cell_array[i][j].get_state() == 3:
-        print(f"{cell_array[i][j].get_identity()}: {cell_array[i][j].get_state()}")
-    elif cell_array[i][j].get_state() == 4:
-        print(f"{cell_array[i][j].get_identity()}: {cell_array[i][j].get_state()}")
+def cell_logic(cell_list, i, j):
+    cell = cell_list[i][j]
+    enabled_transistors = cell_list[i][j].find_enabled_transistors()
+
+    if cell.get_state() == 1 and cell.get_enabled() == 0:
+        for n in range(len(enabled_transistors)):
+            enabled_transistors[n].change_signal_by(1)
+            enabled_transistors[n].change_enabled_by(1)
+
+        cell.set_enabled(5)
+
+    elif cell.get_state() == 2 and cell.get_enabled() == 0 and cell.get_signal() > 0:
+        for n in range(len(enabled_transistors)):
+            print(f"{n}")
+            enabled_transistors[n].change_signal_by(1)
+            enabled_transistors[n].change_enabled_by(1)
+
+        cell.set_signal(0)
+        cell.set_enabled(2)
+
+    elif cell.get_state() == 3 and cell.get_enabled() == 0:
+        cell.set_enabled(2)
+
+    elif cell.get_state() == 4 and cell.get_enabled() == 0:
+        cell.set_enabled(2)
