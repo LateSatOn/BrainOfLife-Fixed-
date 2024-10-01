@@ -1,18 +1,20 @@
-from CellClass import Cell
-import math
+from CellClass import Cell # Imports Cell class
+import math # Mathematical functions
 
-def fill_cell_list(rows, cols, cell_list, state, signal, enabled):
-    n = 0
+# Fills the cell_list with Cell objects
+def fill_cell_list(rows, cols, cell_list, state, signal, disabled):
     for i in range(rows):
         inner = []
         for j in range(cols):
-            inner.append(Cell(n,state, signal, enabled))
-            n += 1
+            inner.append(Cell(state, signal, disabled))
         cell_list.append(inner)
 
-def fill_cell_list_neighbors(rows, cols, cell_list, specifier, diagonal = False):
+# Adds neighbors to each cell in cell_list
+def fill_cell_list_neighbors(rows, cols, cell_list, specifier, diagonal=False):
     for i in range(rows):
         for j in range(cols):
+            # Adds adjacent neighbors if within bounds
+            # Adds diagonal neighbors if within bounds and diagonal is True
             if i > 0 and j > 0 and diagonal:
                 cell_list[i][j].add_neighbor(cell_list[i - 1][j - 1], specifier)
             if i > 0:
@@ -30,14 +32,12 @@ def fill_cell_list_neighbors(rows, cols, cell_list, specifier, diagonal = False)
             if i < len(cell_list) - 1 and j < len(cell_list) - 1 and diagonal:
                 cell_list[i][j].add_neighbor(cell_list[i + 1][j + 1], specifier)
 
+# Returns the count of cells with states 2(Transmitter), 3(Resting neuron), or 4(Firing neuron) in the specified quarter of the grid
 def first_quarter(matrix):
-    rows = len(matrix)
-    cols = len(matrix[0])
-    mid_row = math.ceil(rows / 2)
-    mid_col = math.ceil(cols / 2)
+    rows, cols = len(matrix), len(matrix[0])
+    mid_row, mid_col = math.ceil(rows / 2), math.ceil(cols / 2)
 
     first_quarter_value = 0
-
     for i in range(mid_row - 1):
         for j in range(mid_col - 1):
             if matrix[i][j].state in {2, 3, 4}:
@@ -45,13 +45,10 @@ def first_quarter(matrix):
 
     return first_quarter_value
 def second_quarter(matrix):
-    rows = len(matrix)
-    cols = len(matrix[0])
-    mid_row = math.ceil(rows / 2)
-    mid_col = math.ceil(cols / 2)
+    rows, cols = len(matrix), len(matrix[0])
+    mid_row, mid_col = math.ceil(rows / 2), math.ceil(cols / 2)
 
     second_quarter_value = 0
-
     for i in range(mid_row - 1):
         for j in range(mid_col, cols):
             if matrix[i][j].state in {2, 3, 4}:
@@ -59,13 +56,10 @@ def second_quarter(matrix):
 
     return second_quarter_value
 def third_quarter(matrix):
-    rows = len(matrix)
-    cols = len(matrix[0])
-    mid_row = math.ceil(rows / 2)
-    mid_col = math.ceil(cols / 2)
+    rows, cols = len(matrix), len(matrix[0])
+    mid_row, mid_col = math.ceil(rows / 2), math.ceil(cols / 2)
 
     third_quarter_value = 0
-
     for i in range(mid_row, rows):
         for j in range(mid_col - 1):
             if matrix[i][j].state in {2, 3, 4}:
@@ -73,13 +67,10 @@ def third_quarter(matrix):
 
     return third_quarter_value
 def fourth_quarter(matrix):
-    rows = len(matrix)
-    cols = len(matrix[0])
-    mid_row = math.ceil(rows / 2)
-    mid_col = math.ceil(cols / 2)
+    rows, cols = len(matrix), len(matrix[0])
+    mid_row, mid_col = math.ceil(rows / 2), math.ceil(cols / 2)
 
     fourth_quarter_value = 0
-
     for i in range(mid_row, rows):
         for j in range(mid_col, cols):
             if matrix[i][j].state in {2, 3, 4}:
