@@ -10,28 +10,25 @@ def fill_cell_list(rows, cols, cell_list, state, signal, enabled):
             n += 1
         cell_list.append(inner)
 
-def fill_cell_list_neighbors(rows, cols, cell_list, diagonal = False):
+def fill_cell_list_neighbors(rows, cols, cell_list, specifier, diagonal = False):
     for i in range(rows):
         for j in range(cols):
+            if i > 0 and j > 0 and diagonal:
+                cell_list[i][j].add_neighbor(cell_list[i - 1][j - 1], specifier)
             if i > 0:
-                cell_list[i][j].add_neighbor(cell_list[i - 1][j])
+                cell_list[i][j].add_neighbor(cell_list[i - 1][j], specifier)
+            if i > 0 and j < len(cell_list) - 1 and diagonal:
+                cell_list[i][j].add_neighbor(cell_list[i - 1][j + 1], specifier)
             if j > 0:
-                cell_list[i][j].add_neighbor(cell_list[i][j - 1])
+                cell_list[i][j].add_neighbor(cell_list[i][j - 1], specifier)
             if j < len(cell_list) - 1:
-                cell_list[i][j].add_neighbor(cell_list[i][j + 1])
+                cell_list[i][j].add_neighbor(cell_list[i][j + 1], specifier)
+            if i < len(cell_list) - 1 and j > 0 and diagonal:
+                cell_list[i][j].add_neighbor(cell_list[i + 1][j - 1], specifier)
             if i < len(cell_list) - 1:
-                cell_list[i][j].add_neighbor(cell_list[i + 1][j])
-    if diagonal:
-        for i in range(rows):
-            for j in range(cols):
-                if i > 0 and j > 0:
-                    cell_list[i][j].add_neighbor(cell_list[i - 1][j - 1])
-                if i > 0 and j < len(cell_list) - 1:
-                    cell_list[i][j].add_neighbor(cell_list[i - 1][j + 1])
-                if i < len(cell_list) - 1 and j > 0:
-                    cell_list[i][j].add_neighbor(cell_list[i + 1][j - 1])
-                if i < len(cell_list) - 1 and j < len(cell_list) - 1:
-                    cell_list[i][j].add_neighbor(cell_list[i + 1][j + 1])
+                cell_list[i][j].add_neighbor(cell_list[i + 1][j], specifier)
+            if i < len(cell_list) - 1 and j < len(cell_list) - 1 and diagonal:
+                cell_list[i][j].add_neighbor(cell_list[i + 1][j + 1], specifier)
 
 def first_quarter(matrix):
     rows = len(matrix)
