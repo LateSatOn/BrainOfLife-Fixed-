@@ -1,60 +1,54 @@
 class Cell:
-    def __init__(self,identity, state, signal, enabled):
-        self.identity = identity
+    def __init__(self, state, signal, disabled):
+        # Initialize cell with state, signal, and disabled status
         self.state = state
-        self.neighbors_t = []
-        self.neighbors_n = []
-        self.signal = signal
-        self.enabled = enabled
+        self.neighbors_t = []  # List of transistor neighbors
+        self.neighbors_n = []  # List of neuron neighbors
+        self.signal = signal  # Signal value of the cell
+        self.disabled = disabled  # Disabled status (affects behavior)
 
-    def get_identity(self):
-        return self.identity
+    # Getters for the cell's attributes
     def get_state(self):
         return self.state
-    def get_neighbors(self, specifier):
-        if specifier == 'n':
-            return self.neighbors_n
-        elif specifier == 't':
-            return self.neighbors_t
-
     def get_signal(self):
         return self.signal
-    def get_enabled(self):
-        return self.enabled
+    def get_disabled(self):
+        return self.disabled
 
-    def set_identity(self, identity):
-        self.identity = identity
+    # Setters to update the cell's state, signal, and disabled status
     def set_state(self, data):
         self.state = data
     def set_signal(self, state):
         self.signal = state
-    def set_enabled(self, state):
-        self.enabled = state
+    def set_disabled(self, state):
+        self.disabled = state
 
-    def add_neighbor(self, neighbor, specifier):
-        if specifier == 'n':
-            self.neighbors_n.append(neighbor)
-        elif specifier == 't':
-            self.neighbors_t.append(neighbor)
-
-
+    # Methods to change the cell's attributes by a given value
     def change_state_by(self, data):
         self.state += data
     def change_signal_by(self, data):
         self.signal += data
-    def change_enabled_by(self, data):
-        self.enabled += data
+    def change_disabled_by(self, data):
+        self.disabled += data
 
-    def find_enabled_transistors(self):
-        enabled_transistor_neighbors = []
-        for n in range(len(self.neighbors_t)):
-            if self.neighbors_t[n].state == 2 and self.neighbors_t[n].enabled == 0:
-                enabled_transistor_neighbors.append(self.neighbors_t[n])
-        return enabled_transistor_neighbors
+    # Add a neighbor to the cell's list of neighbors based on the specifier ('n' for neuron, 't' for transistor)
+    def add_neighbor(self, neighbor, specifier):
+        if specifier.lower() == "n":
+            self.neighbors_n.append(neighbor)
+        elif specifier.lower() == 't':
+            self.neighbors_t.append(neighbor)
 
-    def find_enabled_resting_neurons(self):
-        enabled_resting_neuron_neighbors = []
-        for n in range(len(self.neighbors_n)):
-            if self.neighbors_n[n].state == 3 and self.neighbors_n[n].enabled == 0:
-                enabled_resting_neuron_neighbors.append(self.neighbors_n[n])
-        return enabled_resting_neuron_neighbors
+    # Find enabled neighbors based on specifier ('n' for neurons, 't' for transistors)
+    def find_enabled(self, specifier):
+        enabled_neighbors = []
+        if specifier.lower() == "n":
+            for n in range(len(self.neighbors_n)):
+                # Neurons must be in state 3 and enabled
+                if self.neighbors_n[n].state == 3 and self.neighbors_n[n].disabled == 0:
+                    enabled_neighbors.append(self.neighbors_n[n])
+        elif specifier.lower() == 't':
+            for n in range(len(self.neighbors_t)):
+                # Transistors must be in state 2 and enabled
+                if self.neighbors_t[n].state == 2 and self.neighbors_t[n].disabled == 0:
+                    enabled_neighbors.append(self.neighbors_t[n])
+        return enabled_neighbors
