@@ -10,10 +10,11 @@ COLOR_MAP = {
     4: "violet"
 }
 
-rows, cols = 5, 5
+rows, cols = 19, 19
 cell_list = []
 mf.fill_cell_list(rows, cols, cell_list, 0, 0, 0)
-mf.fill_cell_list_neighbors(rows, cols, cell_list)
+mf.fill_cell_list_neighbors(rows, cols, cell_list, 'n')
+mf.fill_cell_list_neighbors(rows, cols, cell_list, 't')
 
 is_iterating = False
 iteration = 0
